@@ -49,7 +49,7 @@ const mainPrompt = async () => {
       break;
 
     case "Add a role":
-      const departmentsOptions = await db.viewAllDepartments();
+      const [ departmentsOptions ] = await db.viewAllDepartments();
       const roleInfo = await inquirer.prompt([
         {
           type: "input",
@@ -76,8 +76,8 @@ const mainPrompt = async () => {
       break;
 
     case "Add an employee":
-      const rolesOptions = await db.getAllRoles();
-      const employeesOptions = await db.getAllEmployees();
+      const [ rolesOptions ] = await db.getAllRoles();
+      const [ employeesOptions ] = await db.getAllEmployees();
       const employeeInfo = await inquirer.prompt([
         {
           type: "input",
@@ -116,8 +116,8 @@ const mainPrompt = async () => {
       break;
 
     case "Update an employee role":
-      const employeeOptions = await db.getAllEmployees();
-      const roleOptions = await db.getAllRoles();
+      const [ employeeOptions ] = await db.getAllEmployees();
+      const [ roleOptions ] = await db.getAllRoles();
       const updateInfo = await inquirer.prompt([
         {
           type: "list",
