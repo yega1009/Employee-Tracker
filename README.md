@@ -1,5 +1,8 @@
 # Employee-Tracker
 
+## Walkthrough Video
+<a href="https://drive.google.com/file/d/1zMQT2CNHx4zLNzQlFC41waqcjHij8Myx/view">Walk-through Video</a>
+
 ## Description
 - This is a command-line application that is designed for businesses to manage and edit the company's structure and employees.
 - This application aids with the planning and updating of the business and workforce structure of a company.
