@@ -1,7 +1,10 @@
+// Import required modules
 const inquirer = require("inquirer");
 const db = require("./lib/queries");
 
+// Main function that executes the application
 const mainPrompt = async () => {
+  // Promp the user with a list to choose from
   const answer = await inquirer.prompt([
     {
       type: "list",
@@ -20,23 +23,29 @@ const mainPrompt = async () => {
     },
   ]);
 
+  // Execute code based on the user's choice
   switch (answer.action) {
     case "View all departments":
-      const [ departments ] = await db.viewAllDepartments();
+      // Fetch all departments from the database
+      const [departments] = await db.viewAllDepartments();
+      // Display all departments in a table in the console
       console.table(departments);
       break;
 
     case "View all roles":
-      const [ roles ] = await db.viewAllRoles();
+      // Fetch all roles from the database
+      const [roles] = await db.viewAllRoles();
       console.table(roles);
       break;
 
     case "View all employees":
-      const [ employees ] = await db.viewAllEmployees();
+      // Fetch all employees from the database
+      const [employees] = await db.viewAllEmployees();
       console.table(employees);
       break;
 
     case "Add a department":
+      // Prompt the user to enter the department name
       const departmentName = await inquirer.prompt([
         {
           type: "input",
@@ -44,12 +53,15 @@ const mainPrompt = async () => {
           message: "Enter the department name:",
         },
       ]);
+      // Add the new department to the database
       await db.addDepartment(departmentName.name);
       console.log("Department added!");
       break;
 
     case "Add a role":
-      const [ departmentsOptions ] = await db.viewAllDepartments();
+      // Fetch all departments for the user to choose when adding a role
+      const [departmentsOptions] = await db.viewAllDepartments();
+      // Prompt the user to enter the details of the role
       const roleInfo = await inquirer.prompt([
         {
           type: "input",
@@ -71,13 +83,16 @@ const mainPrompt = async () => {
           })),
         },
       ]);
+      // Add the new role to the database
       await db.addRole(roleInfo);
       console.log("Role added!");
       break;
 
     case "Add an employee":
-      const [ rolesOptions ] = await db.getAllRoles();
-      const [ employeesOptions ] = await db.getAllEmployees();
+      // Fetch all roles and employees for the user to choose when adding an employee
+      const [rolesOptions] = await db.getAllRoles();
+      const [employeesOptions] = await db.getAllEmployees();
+      // Prompt the user to enter the employee details
       const employeeInfo = await inquirer.prompt([
         {
           type: "input",
@@ -111,13 +126,16 @@ const mainPrompt = async () => {
           ],
         },
       ]);
+      // Add the new employee to the database
       await db.addEmployee(employeeInfo);
       console.log("Employee added!");
       break;
 
     case "Update an employee role":
-      const [ employeeOptions ] = await db.getAllEmployees();
-      const [ roleOptions ] = await db.getAllRoles();
+      // Fetch all employees and roles for the user to choose when updating an employee role
+      const [employeeOptions] = await db.getAllEmployees();
+      const [roleOptions] = await db.getAllRoles();
+      // Prompt the user to select an employee and their new role
       const updateInfo = await inquirer.prompt([
         {
           type: "list",
@@ -138,15 +156,19 @@ const mainPrompt = async () => {
           })),
         },
       ]);
+      // Update the selected employee's role in the database
       await db.updateEmployeeRole(updateInfo.employee_id, updateInfo.role_id);
       console.log("Employee's role updated!");
       break;
 
     case "Exit":
+      // Exit the process
       process.exit();
   }
 
+  // Recall the main prompt function, creating a loop until the user decides to exit
   mainPrompt();
 };
 
+// Execute the main function
 mainPrompt();
