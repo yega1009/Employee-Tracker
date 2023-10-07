@@ -1,5 +1,7 @@
+-- Switch to the 'employee_tracker' database to add seed data
 USE employee_tracker;
 
+-- Insert seed data into the 'department' table
 INSERT INTO department (name) 
 VALUES 
 ('Sales'),
@@ -7,6 +9,7 @@ VALUES
 ('Finance'),
 ('Human Resources');
 
+-- Insert seed data into the 'role' table. The 'department_id' is retrieved by querying the 'department' table based on the department name
 INSERT INTO role (title, salary, department_id) 
 VALUES
 ('Sales Manager', 80000, (SELECT id FROM department WHERE name = 'Sales')),
@@ -16,11 +19,13 @@ VALUES
 ('Accountant', 70000, (SELECT id FROM department WHERE name = 'Finance')),
 ('HR Specialist', 60000, (SELECT id FROM department WHERE name = 'Human Resources'));
 
+-- Inserting seed data into the 'employee' table. The 'role_id' is retrieved by querying the 'role' table based on the role title. 
+-- 'manager_id' is NULL for top-level employees, and references the 'id' of other employees for those who have managers
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
-('John', 'Doe', (SELECT id FROM role WHERE title = 'Sales Manager'), NULL),
-('Alice', 'Johnson', (SELECT id FROM role WHERE title = 'Software Engineer'), NULL),
-('Charlie', 'Brown', (SELECT id FROM role WHERE title = 'Accountant'), NULL),
-('Jane', 'Smith', (SELECT id FROM role WHERE title = 'Sales Representative'), 1),
+('John', 'Doe', (SELECT id FROM role WHERE title = 'Sales Manager'), NULL), 
+('Alice', 'Johnson', (SELECT id FROM role WHERE title = 'Software Engineer'), NULL), 
+('Charlie', 'Brown', (SELECT id FROM role WHERE title = 'Accountant'), NULL), 
+('Jane', 'Smith', (SELECT id FROM role WHERE title = 'Sales Representative'), 1), 
 ('Bob', 'Williams', (SELECT id FROM role WHERE title = 'Lead Engineer'), 3), 
-('Eve', 'Davis', (SELECT id FROM role WHERE title = 'HR Specialist'), 5); 
+('Eve', 'Davis', (SELECT id FROM role WHERE title = 'HR Specialist'), 5);
